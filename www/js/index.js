@@ -27,6 +27,38 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        var push = PushNotification.init({
+            "android": {
+                "senderID": "836033005549"
+            },
+            "browser": {},
+            "ios": {
+                "sound": true,
+                "vibration": true,
+                "badge": true
+            },
+            "windows": {}
+        });
+
+        push.on('registration', function(data) {
+            console.log(data.registrationId);
+            // oldPushId = Lockr.get('push_key');
+            // if (oldPushId !== data.registrationId) {
+                // Lockr.set('push_key', data.registrationId);
+                // Save new registration ID
+                // localStorage.setItem('registrationId', data.registrationId);
+                // Post registrationId to your app server as the value has changed
+            // }
+        });
+
+        push.on('error', function(e) {
+            // myApp.alert("push error = " + e.message);
+        });
+
+        push.on('notification', function(data) {
+            console.log(JSON.stringify(data));
+            // myApp.alert(data.title + ': ' + data.message);
+        });
     },
     // deviceready Event Handler
     //
